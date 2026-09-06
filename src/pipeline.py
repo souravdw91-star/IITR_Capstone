@@ -1,11 +1,3 @@
-"""
-End-to-end processing pipeline orchestrating all sub-components.
-Satisfies Acceptance Criteria A2-A8, A11.
-"""
-import os
-from typing import Dict, Any
-from dotenv import load_dotenv
-
 from src.schemas import OutboundResponse
 from src.ingest import normalise_ticket
 from src.classify import TicketClassifier
@@ -16,6 +8,18 @@ from src.guardrails import evaluate_guardrails
 from src.logging_store import DecisionLogger
 
 load_dotenv()
+
+# Optional LangSmith traceable decorator
+try:
+    from langsmith import traceable
+    HAS_LANGSMITH = True
+except ImportError:
+    HAS_LANGSMITH = False
+    def traceable(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+
 
 
 class SupportPipeline:
@@ -29,7 +33,9 @@ class SupportPipeline:
         self.generator = ResponseGenerator()
         self.logger = DecisionLogger(db_path=db_path)
 
+    @traceable(name="CloudServe_Support_Pipeline")
     def process_ticket(self, raw_ticket_data: Dict[str, Any]) -> OutboundResponse:
+
         """
         Executes the end-to-end processing pipeline on a raw ticket dictionary.
         """
