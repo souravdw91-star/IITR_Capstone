@@ -17,5 +17,7 @@ numpy>=1.26.0
 streamlit>=1.35.0
 torch
 torchvision
+reportlab>=4.0.0
+
 
 
