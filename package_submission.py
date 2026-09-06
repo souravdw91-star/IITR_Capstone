@@ -149,8 +149,13 @@ def package_submission(raw_author_name: str):
                 rel_path = os.path.relpath(full_path, build_dir)
                 zipf.write(full_path, rel_path)
 
-    shutil.rmtree(build_dir)
+    try:
+        shutil.rmtree(build_dir)
+    except Exception:
+        pass
+
     print(f"\n[SUCCESS] Submission ZIP created successfully: {archive_name}\n")
+
 
 
 if __name__ == "__main__":
