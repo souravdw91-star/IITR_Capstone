@@ -11,12 +11,6 @@ env/
 ENV/
 *.venv
 
-# Generated Runtime Storage & Databases
-storage/
-*.db
-*.sqlite
-*.sqlite3
-
 # Cache & Compiled Python Files
 __pycache__/
 *.pyc
@@ -37,7 +31,6 @@ scratch/
 *.swp
 *.swo
 .DS_Store
-Thumbs.db
 desktop.ini
 
 # Streamlit Local Configurations / Secrets
