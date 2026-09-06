@@ -1,0 +1,44 @@
+# Credentials & Secrets (CRITICAL - Never Commit)
+.env
+.env.local
+.env.*
+!.env.example
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+*.venv
+
+# Generated Runtime Storage & Databases
+storage/
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache & Compiled Python Files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Runtime Evaluation & Scratch Outputs
+evaluation/results/
+scratch/
+
+# IDE & OS Specific Files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit Local Configurations / Secrets
+.streamlit/secrets.toml
