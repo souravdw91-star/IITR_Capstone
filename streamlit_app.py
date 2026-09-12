@@ -118,21 +118,34 @@ if nav_choice == "🎫 Ticket Testing Lab":
     preset_ticket = None
     with col_preset:
         st.subheader("Load Preset Ticket")
+        sample_tickets = []
+        video_demo_path = "data/video_demo_tickets.json"
         dev_tickets_path = "FDE_Capstone_Docs/05_Datasets/development_tickets.json"
+
+        if os.path.exists(video_demo_path):
+            with open(video_demo_path, "r", encoding="utf-8") as f:
+                sample_tickets.extend(json.load(f))
         if os.path.exists(dev_tickets_path):
             with open(dev_tickets_path, "r", encoding="utf-8") as f:
-                sample_tickets = json.load(f)[:20]
-            options = ["-- Select Preset --"] + [t["ticket_id"] + " - " + (t.get("subject") or t.get("body")[:30]) for t in sample_tickets]
+                sample_tickets.extend(json.load(f)[:15])
+
+        if sample_tickets:
+            options = ["-- Select Preset --"] + [
+                f"{t['ticket_id']} - {t.get('customer_name', 'Customer')} ({t.get('subject') or t.get('body')[:25]})"
+                for t in sample_tickets
+            ]
             selected_preset_str = st.selectbox("Select Sample Ticket", options=options)
             if selected_preset_str != "-- Select Preset --":
                 selected_id = selected_preset_str.split(" - ")[0]
                 preset_ticket = next((t for t in sample_tickets if t["ticket_id"] == selected_id), None)
 
-    default_id = preset_ticket["ticket_id"] if preset_ticket else "TEST-001"
+    default_id = preset_ticket["ticket_id"] if preset_ticket else "DEMO-AUTO-001"
     default_channel = preset_ticket["channel"] if preset_ticket else "email"
-    default_subject = preset_ticket["subject"] if preset_ticket else "Invalid credentials on console login"
-    default_body = preset_ticket["body"] if preset_ticket else "The console returns 'Invalid credentials' when attempting to sign in. We have verified our password."
-    default_tier = preset_ticket.get("customer_tier", "standard") if preset_ticket else "standard"
+    default_subject = preset_ticket.get("subject", "") if preset_ticket else "Resolving invalid credential errors on console login"
+    default_body = preset_ticket.get("body", "") if preset_ticket else "We are receiving an Invalid Credentials error when attempting to sign in to the CloudServe Management Console. We verified our password is correct. How can we resolve this?"
+    default_name = preset_ticket.get("customer_name", "Priya Sharma") if preset_ticket else "Priya Sharma"
+    default_cust_id = preset_ticket.get("customer_id", "CUST-1042") if preset_ticket else "CUST-1042"
+    default_tier = preset_ticket.get("customer_tier", "enterprise") if preset_ticket else "enterprise"
     default_region = preset_ticket.get("customer_region", "north_america") if preset_ticket else "north_america"
     default_fluency = preset_ticket.get("language_fluency", "fluent") if preset_ticket else "fluent"
 
@@ -144,10 +157,10 @@ if nav_choice == "🎫 Ticket Testing Lab":
                 ticket_id = st.text_input("Ticket ID", value=default_id)
                 channel_idx = ["email", "chat", "docs_comment", "forum"].index(default_channel) if default_channel in ["email", "chat", "docs_comment", "forum"] else 0
                 channel = st.selectbox("Channel", ["email", "chat", "docs_comment", "forum"], index=channel_idx)
-                tier_idx = ["enterprise", "business", "standard"].index(default_tier) if default_tier in ["enterprise", "business", "standard"] else 2
+                tier_idx = ["enterprise", "business", "standard"].index(default_tier) if default_tier in ["enterprise", "business", "standard"] else 0
                 customer_tier = st.selectbox("Customer Tier", ["enterprise", "business", "standard"], index=tier_idx)
             with c2:
-                customer_name = st.text_input("Customer Name", value="Priya Sharma")
+                customer_name = st.text_input("Customer Name", value=default_name)
                 region_idx = ["north_america", "europe", "asia_pacific", "latin_america"].index(default_region) if default_region in ["north_america", "europe", "asia_pacific", "latin_america"] else 0
                 customer_region = st.selectbox("Region", ["north_america", "europe", "asia_pacific", "latin_america"], index=region_idx)
                 fluency_idx = ["fluent", "non_fluent"].index(default_fluency) if default_fluency in ["fluent", "non_fluent"] else 0
@@ -165,7 +178,7 @@ if nav_choice == "🎫 Ticket Testing Lab":
             "subject": subject,
             "body": body,
             "received_at": "2026-09-06T12:00:00Z",
-            "customer_id": "CUST-1042",
+            "customer_id": default_cust_id,
             "customer_name": customer_name,
             "customer_tier": customer_tier,
             "customer_region": customer_region,

@@ -17,12 +17,12 @@
 
 ### Curated Demo Cases Reference Table
 
-| Demo # | Ticket ID | Channel | Subject / Body Summary | Expected Action | Key Metric / Reason |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Demo 1** | `DEMO-AUTO-001` | Email | *Resolving invalid credential errors on console login* | **AUTO RESPOND** | Intent: `authentication_failure` (Conf: `0.92`), Cites `[DOC-AUTH-001]`. |
-| **Demo 2** | `DEMO-ESC-002` | Email | *Dispute regarding overcharge on June billing invoice* | **ESCALATE** | Policy Rule: `must_not_auto_respond = True` (`billing_dispute`). |
-| **Demo 3** | `DEMO-PII-003` | Live Chat | *My build pipeline fails. Here is my key: sk_live_998877...* | **BLOCKED** | PII Guardrail Intercept: `"Secret API Key detected"`. |
-| **Demo 4** | `DEMO-EVAL-004` | CLI | *Unattended Harness Run on validation_tickets.json* | **UNATTENDED RUN** | 80/80 Tickets processed in `0.42s`, P95 Latency: `0.0104s`. |
+| Demo # | Ticket ID | Customer Name & ID | Tier & Region | Channel | Subject / Body Summary | Expected Action | Key Metric / Reason |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Demo 1** | `DEMO-AUTO-001` | Priya Sharma (`CUST-1042`) | Enterprise (North America) | Email | *Resolving invalid credential errors on console login* | **AUTO RESPOND** | Intent: `authentication_failure` (Conf: `0.92`), Cites `[DOC-AUTH-001]`. |
+| **Demo 2** | `DEMO-ESC-002` | Carlos Gomez (`CUST-2088`) | Business (Latin America, Non-Fluent) | Email | *Dispute regarding overcharge on June billing invoice* | **ESCALATE** | Policy Rule: `must_not_auto_respond = True` (`billing_dispute`). |
+| **Demo 3** | `DEMO-PII-003` | Alex Chen (`CUST-3041`) | Standard (Asia Pacific) | Live Chat | *My build pipeline fails. Here is my key: sk_live_998877...* | **BLOCKED** | PII Guardrail Intercept: `"Secret API Key detected"`. |
+| **Demo 4** | `DEMO-EVAL-004` | System Auditor (`CUST-4000`) | Enterprise (Europe) | CLI | *Unattended Harness Run on validation_tickets.json* | **UNATTENDED RUN** | 80/80 Tickets processed in `0.42s`, P95 Latency: `0.0104s`. |
 
 ---
 
@@ -33,7 +33,7 @@
 | **0:00 – 2:00** | 1. The Problem | Camera / Intro Slide | Client request vs. real operational failure. |
 | **2:00 – 5:00** | 2. Discovery Evidence | Discovery Workbook / Charts | 74.8% doc overlap, 4 channels, 25.4% non-fluent. |
 | **5:00 – 7:00** | 3. Architecture Overview | System Architecture Diagram | 3-layer architecture, LangChain, FAISS, Gemini. |
-| **7:00 – 14:00** | 4. Live System Demo | Streamlit App & Terminal | Demo 1 (`DEMO-AUTO-001`), Demo 2 (`DEMO-ESC-002`), Demo 3 (`DEMO-PII-003`), Demo 4 (CLI Harness). |
+| **7:00 – 14:00** | 4. Live System Demo | Streamlit App & Terminal | Demo 1 (`DEMO-AUTO-001`: Priya Sharma), Demo 2 (`DEMO-ESC-002`: Carlos Gomez), Demo 3 (`DEMO-PII-003`: Alex Chen), Demo 4 (`DEMO-EVAL-004`: System Auditor). |
 | **14:00 – 17:00** | 5. Results & Metrics | Streamlit Dashboard / JSON | FCR 20–68.5%, P95 Latency 0.0104s, Citation Acc 92%. |
 | **17:00 – 18:00** | 6. Governance & Risk | Governance Framework / Toggle | Risk matrix, PII zero-tolerance, Kill Switch. |
 | **18:00 – 20:00** | 7. PRD Revision & Reflection | PRD Revision Log / Camera | Requirements changes, trade-offs, next steps. |
@@ -91,35 +91,35 @@
 > *"Let's see the system working live in our Streamlit testing environment.*
 
 #### Demo Case 1: Automated Grounded Response (`DEMO-AUTO-001`) (7:00 – 9:00)
-**[Action: Select preset `DEMO-AUTO-001` or paste Subject: 'Resolving invalid credential errors on console login', Customer: 'Priya Sharma'. Click 'Process Ticket Through Pipeline']**
+**[Action: Select preset `DEMO-AUTO-001` (Customer: 'Priya Sharma', ID: 'CUST-1042', Tier: 'enterprise', Region: 'north_america', Fluency: 'fluent') or paste Subject: 'Resolving invalid credential errors on console login'. Click 'Process Ticket Through Pipeline']**
 
-> *"First, let's process ticket ID **DEMO-AUTO-001** submitted by Priya Sharma regarding an invalid credential login error.*
+> *"First, let's process ticket ID **DEMO-AUTO-001** submitted by **Priya Sharma** (Customer ID: **CUST-1042**), an Enterprise tier customer from North America regarding an invalid credential login error.*
 > *I click **Process Ticket Through Pipeline**.*
 > *Notice the pipeline execution results:*
 > *- **Action Taken:** Updates to **AUTO_RESPOND** in green.*
 > *- **Predicted Intent:** `authentication_failure` with an exact confidence score of **zero point ninety-two** (0.92).*
-> *- **Response Tab:** Gemini generates a grounded solution citing `[DOC-AUTH-001]`.*
+> *- **Response Tab:** Gemini generates a grounded solution addressing Priya directly and citing `[DOC-AUTH-001]`.*
 > *- **FAISS Tab:** Expanding Passage 1 shows chunk score 0.88 extracted from `DOC-AUTH-001` titled 'Resolving invalid credential errors on login'.*"*
 
 #### Demo Case 2: Deterministic Safety Escalation (`DEMO-ESC-002`) (9:00 – 11:00)
-**[Action: Select preset or paste Subject: 'Dispute regarding overcharge on June billing invoice', Body: 'Our invoice for June shows a charge of $4,500... Please issue a refund...'. Click 'Process Ticket Through Pipeline']**
+**[Action: Select preset `DEMO-ESC-002` (Customer: 'Carlos Gomez', ID: 'CUST-2088', Tier: 'business', Region: 'latin_america', Fluency: 'non_fluent') or paste Subject: 'Dispute regarding overcharge on June billing invoice', Body: 'Our invoice for June shows a charge of $4,500... Please issue a refund...'. Click 'Process Ticket Through Pipeline']**
 
-> *"Now let's process ticket ID **DEMO-ESC-002** submitted by Carlos Gomez regarding a billing overcharge dispute of $4,500.*
+> *"Now let's process ticket ID **DEMO-ESC-002** submitted by **Carlos Gomez** (Customer ID: **CUST-2088**), a Business tier customer from Latin America with non-fluent English language preference, regarding a billing overcharge dispute of $4,500.*
 > *I submit the ticket. Notice that even though the classification confidence is zero point ninety-five, the intent `billing_dispute` triggers our mandatory safety override rule (`must_not_auto_respond = True`).*
 > *The status badge immediately updates to **ESCALATED** in yellow, displaying the reason: 'Policy requirement: billing_dispute issues must be reviewed by human support', while attaching the relevant documentation context for senior engineers."*
 
 #### Demo Case 3: Guardrail Hard Intercept (`DEMO-PII-003`) (11:00 – 12:30)
-**[Action: Select preset or paste Live Chat Body: 'My deployment build fails with auth error. Here is the production key I am using: sk_live_998877665544332211. Please check...'. Click 'Process Ticket Through Pipeline']**
+**[Action: Select preset `DEMO-PII-003` (Customer: 'Alex Chen', ID: 'CUST-3041', Tier: 'standard', Region: 'asia_pacific', Fluency: 'fluent') or paste Live Chat Body: 'My deployment build fails with auth error. Here is the production key I am using: sk_live_998877665544332211. Please check...'. Click 'Process Ticket Through Pipeline']**
 
-> *"Next, let's observe our safety execution guardrails in action on ticket ID **DEMO-PII-003**.*
-> *The customer pasted a live secret API key starting with `sk_live_998877...` into live chat.*
+> *"Next, let's observe our safety execution guardrails in action on ticket ID **DEMO-PII-003** submitted by **Alex Chen** (Customer ID: **CUST-3041**), a Standard tier customer from Asia Pacific.*
+> *Alex pasted a live secret API key starting with `sk_live_998877...` into live chat.*
 > *I click submit. The regex guardrail in `src/guardrails.py` intercepts the text, flags a PII violation: 'Secret API Key detected', and **HARD BLOCKS** the response.*
 > *Under the Guardrails tab, status displays **BLOCKED** in red, guaranteeing zero confidential data leaks."*
 
 #### Demo Case 4: Unattended Evaluation Harness Run (`DEMO-EVAL-004`) (12:30 – 14:00)
-**[Action: Switch to Terminal Window. Run command: python -m evaluation.harness --input FDE_Capstone_Docs/05_Datasets/validation_tickets.json --output evaluation/results/]**
+**[Action: Switch to Terminal Window. Ticket ID: 'DEMO-EVAL-004', Customer: 'System Auditor' (ID: 'CUST-4000', Tier: 'enterprise', Region: 'europe'). Run command: python -m evaluation.harness --input FDE_Capstone_Docs/05_Datasets/validation_tickets.json --output evaluation/results/]**
 
-> *"Finally, let's run our unattended evaluation harness against the eighty validation tickets in `validation_tickets.json`.*
+> *"Finally, let's run our unattended evaluation harness for ticket ID **DEMO-EVAL-004** under **System Auditor** (Customer ID: **CUST-4000**) against the eighty validation tickets in `validation_tickets.json`.*
 > *I execute: `python -m evaluation.harness --input FDE_Capstone_Docs/05_Datasets/validation_tickets.json --output evaluation/results/`.*
 > *The harness processes all **eighty tickets unattended** in just **zero point forty-two seconds** without manual intervention.*
 > *Looking at the terminal output: Eighty out of eighty decisions are written to `storage/decisions.db`, achieving a 95th percentile latency of **zero point zero one zero four seconds** (0.0104s), and the metrics report is saved to `evaluation/results/metrics_report.json`."*
